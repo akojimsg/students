@@ -39,12 +39,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-/*    @ExceptionHandler(Unauthorized.class)
-    public ResponseEntity<Object> handleUnAuthorizedException(Unauthorized ex) {
+    @ExceptionHandler(JwtAuthTokenException.class)
+    public ResponseEntity<Object> handleUnAuthorizedException(JwtAuthTokenException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("error", HttpStatus.UNAUTHORIZED.getReasonPhrase());
         response.put("StatusCode", HttpStatus.UNAUTHORIZED.value());
         response.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-    }*/
+    }
 }

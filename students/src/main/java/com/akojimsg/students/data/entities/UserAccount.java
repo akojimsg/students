@@ -45,6 +45,13 @@ public class UserAccount {
     this.authorities.add(new SimpleGrantedAuthority(role));
   }
 
+  public UserAccount(Long id, String username, String password, List<String> authorities) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    authorities.forEach(role -> this.authorities.add(new SimpleGrantedAuthority(role)));
+  }
+
   public UserDetails asUser() {
     return User
         .withUsername(getUsername())

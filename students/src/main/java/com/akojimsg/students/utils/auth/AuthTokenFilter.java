@@ -1,5 +1,6 @@
 package com.akojimsg.students.utils.auth;
 
+import com.akojimsg.students.utils.exceptions.JwtAuthTokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +52,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
     } catch (Exception e) {
       logger.error("Cannot set user authentication: {0}", e);
+      throw new JwtAuthTokenException(e.getMessage());
     }
   }
 

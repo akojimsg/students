@@ -19,6 +19,7 @@
 		<version.guava>32.1.3-jre</version.guava>
 		<version.faker>1.0.2</version.faker>
 		<version.jwt>0.9.1</version.jwt>
+		<version.junit.jupiter>5.10.2</version.junit.jupiter>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -72,6 +73,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.30</version>
 		</dependency>
+<!--		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${version.junit.jupiter}</version>
+			<scope>test</scope>
+		</dependency>-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
@@ -96,6 +103,11 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${version.guava}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
