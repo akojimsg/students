@@ -78,12 +78,14 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.30</version>
 		</dependency>
-<!--		<dependency>
+		<!--
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>${version.junit.jupiter}</version>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
+		-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
