@@ -1,11 +1,8 @@
 package com.akojimsg.students;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class StudentsApplicationTests {
-
+class StudentsApplicationTests extends AbstractApplicationContextTest {
 	@Test
 	void contextLoads() {
 	}

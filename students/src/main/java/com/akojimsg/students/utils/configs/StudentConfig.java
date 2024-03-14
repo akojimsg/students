@@ -2,31 +2,37 @@ package com.akojimsg.students.utils.configs;
 
 import com.akojimsg.students.data.entities.Student;
 import com.akojimsg.students.data.repositories.StudentRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.github.javafaker.*;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.Locale;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Configuration
 public class StudentConfig {
-    @Bean
-    CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
-        return args -> {
-            Faker faker = new Faker(new Locale("en-US"));
-            for (int i = 0; i < 50; i++) {
-                Student s = new Student();
-                s.setName(faker.name().fullName());
-                s.setEmail(faker.internet().emailAddress());
-                s.setDob(
-                        Instant.ofEpochMilli(faker.date().birthday(0, 120).getTime())
-                                .atZone(ZoneId.systemDefault()).toLocalDate()
-                );
-                studentRepository.save(s);
-            }
-        };
-    }
+  private static final Logger logger = LoggerFactory.getLogger(StudentConfig.class);
+  @Bean
+  CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
+    return args -> {
+      logger.info("Loading initial data from json file");
+      try (InputStream inputStream = TypeReference.class.getResourceAsStream("/static/students.json")) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        List<Student> students = mapper.readValue(inputStream, new TypeReference<List<Student>>() {});
+        studentRepository.saveAll(students);
+        logger.info("Initial data loaded successfully!");
+      } catch (IOException e) {
+        logger.error("Failed to load initial data: {0}", e);
+      }
+    };
+  }
 }

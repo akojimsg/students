@@ -54,6 +54,7 @@ public class AuthConfig {
                 (auth) ->
                     auth
                     .requestMatchers("/v1/auth/**").permitAll()
+                    .requestMatchers("/actuator/**").permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

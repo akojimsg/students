@@ -1,10 +1,12 @@
 package com.akojimsg.students.controllers;
 
+import com.akojimsg.students.AbstractApplicationContextTest;
 import com.akojimsg.students.data.dto.SignUpDTO;
 import com.akojimsg.students.data.entities.UserAccount;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,10 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
-@SpringBootTest
+
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
-public class AuthControllerTests {
+public class AuthControllerTests extends AbstractApplicationContextTest {
 
   @TestConfiguration
   static class AuthControllerTestsConfiguration {
