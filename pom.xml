@@ -21,6 +21,8 @@
 		<version.jwt>0.9.1</version.jwt>
 		<version.junit.jupiter>5.10.2</version.junit.jupiter>
 		<jackson.version>2.15.4</jackson.version>
+		<sonar.organization>akojimsg</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
