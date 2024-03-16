@@ -16,18 +16,17 @@ services:
       - .env
   students-api:
     container_name: students-api
-    image: registry.github.com/akojimsg/java/students:v1.0.0-openjdk
-    # build:
-    #   context: .
-    #   dockerfile: prod.Dockerfile
-    #   args:
-    #     - NODE_ENV=development
+    build:
+       context: .
+       dockerfile: Dockerfile
+    image: ${MODULE}.students-api:${VERSION}
     depends_on:
       - postgres-db
     links:
       - postgres-db
     environment:
       POSTGRES_HOST: postgres-db
+      DB_SECRET: ${DB_SECRET}
     env_file:
       - .env
     ports:

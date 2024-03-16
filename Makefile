@@ -37,5 +37,9 @@ start-postgres-service:
 stop-postgres-service:
 	sudo pg_ctlcluster 12 main stop
 
-run-postgres:
-	docker run -d --name postgresdb --network app-network -e POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" postgres
+init-postgres:
+	# docker run -d --name pgrunner2 --network app-network -e POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" postgres
+	docker run --name pgrunner2 -e POSTGRES_PASSWORD="${POSTGRES_SECRET}" postgres
+
+config-postgres-aws:
+	export PGPASSWORD=${AWS_PG_SECRET} && ./scripts/init-db-aws.sh
