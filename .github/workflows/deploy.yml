@@ -1,4 +1,4 @@
-name: Deploy to AWS Elastic Bean Stalk
+name: Deploy
 on:
   push:
     branches: ['develop']
