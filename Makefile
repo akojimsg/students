@@ -1,13 +1,23 @@
-.PHONY: build-docker-image
-.PHONY: dev
+.PHONY: docker-image-file
+.PHONY: deploy
 
 MODULE = github.com/akojimsg/java/students
 VERSION = v1.0.0
+TAG = students-0.0.1-SNAPSHOT
+EBS_ENVIRONMENT = students-api-e1
 
 ifneq (,$(wildcard ./.env))
     include .env
     export
 endif
+
+create-ebs-env:
+	eb create ${EBS_ENVIRONMENT} --source target/${TAG}.jar --version ${TAG}
+deploy-ebs-ec2:
+	eb use ${EBS_ENVIRONMENT}
+	mvn clean package spring-boot:repackage
+	eb setenv POSTGRES_HOST=${AWS_PG_ENDPOINT} DB=${DB} DB_USER=${DB_USER} DB_SECRET=${DB_SECRET} DB_PORT=5432 JWT_SECRET=${JWT_SECRET} SERVER_PORT=5000
+	eb deploy --version ${TAG}
 
 docker-image-file:
 	docker build -f Dockerfile -t registry.${MODULE}:${VERSION}-openjdk .;
