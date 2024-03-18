@@ -1,17 +1,21 @@
 name: Deploy
 on:
   push:
-    branches: ['develop', 'feature/add-github-actions']
+    branches: ['develop', 'main', 'release/**']
 jobs:
   deployment:
     name: Clean, Compile and Test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     environment: develop
     env:
-      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
+#      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+#      AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
       AWS_REGION: ${{ vars.AWS_REGION }}
       AWS_PG_ENDPOINT: ${{ vars.AWS_PG_ENDPOINT }}
+      GH_ACTIONS_ROLE: ${{ vars.GH_ACTIONS_ROLE}}
       DB: ${{ secrets.DB }}
       DB_PORT: ${{ secrets.DB_PORT }}
       DB_SECRET: ${{ secrets.DB_SECRET }}
@@ -46,8 +50,10 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ env.AWS_ACCESS_SECRET }}
+          role-to-assume: ${{ env.GH_ACTIONS_ROLE }}
+          role-session-name: Gh-Action-Role
+          # aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
+          # aws-secret-access-key: ${{ env.AWS_ACCESS_SECRET }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Build SpringBoot deployment artifact
         env:
