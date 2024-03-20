@@ -1,0 +1,68 @@
+name: Deploy
+on:
+  push:
+    branches: ['feature/docker-on-ebs']
+jobs:
+  deployment:
+    name: Clean, Compile and Test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: develop
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_PG_ENDPOINT: ${{ vars.AWS_PG_ENDPOINT }}
+      GH_ACTIONS_ROLE: ${{ vars.GH_ACTIONS_ROLE}}
+      DB: ${{ secrets.DB }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_SECRET: ${{ secrets.DB_SECRET }}
+      DB_USER: ${{ secrets.DB_USER }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      LOCAL_BIN: ~/.local/bin
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'zulu'
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Install Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10.12
+      - name: Install EB CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install awsebcli --upgrade --user
+          eb --version
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.GH_ACTIONS_ROLE }}
+          role-session-name: Gh-Action-Role
+          # aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
+          # aws-secret-access-key: ${{ env.AWS_ACCESS_SECRET }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Build SpringBoot deployment artifact
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          JWT_SECRET: ${{ env.JWT_SECRET }}
+        run: mvn -B clean package spring-boot:repackage
+      - name: Init Elastic Beanstalk environment
+        run: eb init  --region ${{ env.AWS_REGION }} --platform 'Docker running on 64bit Amazon Linux 2023' students-docker-app
+      - name: Select environment
+        run: eb use students-docker-e1
+      - name: Set environment variables
+        run: eb setenv POSTGRES_HOST=$AWS_PG_ENDPOINT DB=$DB DB_USER=$DB_USER DB_SECRET=$DB_SECRET DB_PORT=5432 JWT_SECRET=$JWT_SECRET
+      - name: Deploy artifact
+        run: eb deploy --version students-0.0.1-SNAPSHOT

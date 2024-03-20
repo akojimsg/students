@@ -45,3 +45,4 @@ VAR3=thisIsMyEnvFile
 2. [Mockito - Test cases](https://medium.com/javarevisited/implementing-unit-tests-for-a-spring-boot-api-that-uses-spring-data-jpa-and-postgresql-6e2e0880e5db)
 3. [https://tldp.org/LDP/abs/html/index.html](https://tldp.org/LDP/abs/html/index.html)
 4. [Postgres Environment variables](https://www.postgresql.org/docs/current/libpq-envars.html)
+5. [https://www.baeldung.com/linux/docker-permission-denied-daemon-socket-error](https://www.baeldung.com/linux/docker-permission-denied-daemon-socket-error)
