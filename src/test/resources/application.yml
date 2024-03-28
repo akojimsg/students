@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine://test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: false
+server:
+  error:
+    include-message: always
+# JWT Properties
+jwt:
+  secret: 8b492972f7af74de955348867291a52d81953a347f75ec79895b9f51abf2fb76
+  issuer: http://test.eiakoji.com/student-management-app
+application:
+  settings:
+    default:
+      userinfo-secret: test-secret
+    #JWT Properties
+    security:
+      jwt:
+        secret: 8b492972f7af74de955348867291a52d81953a347f75ec79895b9f51abf2fb76
+        issuer: http://test.eiakoji.com/student-management-app
+        access-token:
+          expiration: 6000
+        refresh-token:
+          expiration: 12000

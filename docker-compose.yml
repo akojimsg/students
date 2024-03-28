@@ -1,16 +1,36 @@
 version: '3.8'
 
 services:
-  students-api:
-    container_name: students-api
+  postgres-db:
+    image: postgres:16.2
+    container_name: postgresdb
+    ports:
+      - '5432:5432'
+    networks:
+      - student-api-network
+    volumes:
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_SECRET}
+    env_file:
+      - .env
+  students-management-api:
+    container_name: students-management-api
     build:
        context: .
        dockerfile: Dockerfile
     image: ${MODULE}.students-api:${VERSION}
+    depends_on:
+      - postgres-db
+    links:
+      - postgres-db
+    environment:
+      POSTGRES_HOST: postgres-db
+      DB_SECRET: ${DB_SECRET}
     env_file:
       - .env
     ports:
-      - "5000:8080"
+      - "8080:8080"
     networks:
       - student-api-network
 networks:

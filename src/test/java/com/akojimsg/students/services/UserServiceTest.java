@@ -1,8 +1,8 @@
 package com.akojimsg.students.services;
 
-import com.akojimsg.students.data.entities.Student;
-import com.akojimsg.students.data.repositories.StudentRepository;
-import com.akojimsg.students.services.impl.StudentServiceImpl;
+import com.akojimsg.students.data.entities.User;
+import com.akojimsg.students.data.repositories.UserRepository;
+import com.akojimsg.students.services.impl.UserServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
@@ -33,75 +34,78 @@ import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import(StudentServiceImpl.class)
-public class StudentServiceTest {
-  static List<Student> studentDb;
+@Import(UserServiceImpl.class)
+public class UserServiceTest {
+  static List<User> usersList;
 
   @Configuration
-  static class StudentServiceTestConfiguration {
+  static class UserServiceTestConfiguration {
   }
 
   @BeforeAll
   static void loadStudentData() {
-    try (InputStream inputStream = TypeReference.class.getResourceAsStream("/static/students.json")) {
+    try (InputStream inputStream = TypeReference.class.getResourceAsStream("/static/users.json")) {
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
       mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-      studentDb = mapper.readValue(inputStream, new TypeReference<List<Student>>() {});
+      usersList = mapper.readValue(inputStream, new TypeReference<List<User>>() {});
     } catch (IOException e) {
-      studentDb = new ArrayList<>();
+      usersList = new ArrayList<>();
     }
   }
 
   @Autowired
-  StudentService studentService;
-
+  UserService userService;
   @MockBean
-  private StudentRepository studentRepository;
+  private UserRepository userRepository;
+  @MockBean
+  private PasswordEncoder passwordEncoder;
 
-  @DisplayName("Test method getAllStudents")
+  @DisplayName("Test method getAllUsers")
   @Test
-  void testGetAllStudents_returnsListOfAllStudents(){
-    given(studentRepository.findAll()).willReturn(studentDb);
+  void testGetAllStudents_returnsListOfAllUsers(){
+    given(userRepository.findAll()).willReturn(usersList);
 
-    Assertions.assertThat(studentService.getAllStudents().size()).isEqualTo(50);
+    Assertions.assertThat(userService.getAllUsers().size()).isEqualTo(20);
   }
 
-  @DisplayName("Test method findStudentById")
+  @DisplayName("Test method findUserById")
   @ParameterizedTest
   @MethodSource("generateIds")
   void testGetStudentById_withValidId_returnsStudentWithMatchingId(int id){
-    given(studentRepository.findById((long) id)).willReturn(Optional.ofNullable(findById((long) id)));
+    given(userRepository.findById((long) id)).willReturn(Optional.ofNullable(findById((long) id)));
 
-    Student found = studentService.findStudentById((long) id);
-    Student expected = studentDb.get(id-1);
+    User found = userService.findUserById((long) id);
+    User expected = usersList.get(id-1);
 
     Assertions.assertThat(found).isEqualTo(expected);
   }
 
-  @DisplayName("Test method findStudentsByName")
+  @DisplayName("Test method findUsersByName")
   @ParameterizedTest
   @MethodSource("generateArgsOfNamesToSearch")
   void testGetStudentByName_withNameToSearch_returnsMatchingStudents(String name, int occurrence){
-    given(studentRepository.findByNameContains(name)).willReturn(findByName(name));
+    given(userRepository.findByFullNameContains(name)).willReturn(findByFullName(name));
 
-    List<Student> found = studentService.findStudentsByName(name);
+    List<User> found = userService.findUsersByFullName(name);
 
     Assertions.assertThat(found.size()).isEqualTo(occurrence);
   }
 
-  public static Student findById(Long id) {
-    return studentDb
+  public static User findById(Long id) {
+    return usersList
         .stream()
         .filter(student -> Objects.equals(student.getId(), id))
         .findAny()
         .orElse(null);
   }
 
-  public static List<Student> findByName(String name) {
-    return studentDb
+  public static List<User> findByFullName(String name) {
+    return usersList
         .stream()
-        .filter(student -> student.getName().contains(name))
+        .filter(user -> user
+            .getFullName()
+            .contains(name))
         .collect(Collectors.toList());
   }
 
@@ -110,7 +114,7 @@ public class StudentServiceTest {
   }
 
   public static Stream<Arguments> generateArgsOfNamesToSearch(){
-    List<String> params = List.of("John,1", "Myrtle,1", "Miss,5", "T,6", "Kevin,1");
+    List<String> params = List.of("J,1", "Ma,3", "Armstrong,1", "S,1", "Kevin,0");
     return params
         .stream()
         .map(param -> {
@@ -118,5 +122,4 @@ public class StudentServiceTest {
           return Arguments.of(args[0], Integer.valueOf(args[1]));
         });
   }
-
 }

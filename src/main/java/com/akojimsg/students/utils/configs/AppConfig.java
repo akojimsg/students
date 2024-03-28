@@ -1,35 +1,45 @@
 package com.akojimsg.students.utils.configs;
 
-import com.akojimsg.students.data.entities.UserAccount;
-import com.akojimsg.students.data.repositories.UserManagementRepository;
 import com.akojimsg.students.data.repositories.UserRepository;
-import com.akojimsg.students.services.UserManagementService;
-import com.akojimsg.students.services.impl.UserManagementServiceImpl;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.boot.CommandLineRunner;
+import com.akojimsg.students.utils.auth.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@RequiredArgsConstructor
 public class AppConfig {
+  private final UserRepository repository;
   @Bean
-  public UserDetailsService userDetailsService(UserRepository repository) {
-    return username -> repository.findByUsername(username).asUser();
+  public UserDetailsService userDetailsService() {
+    return username -> repository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
   @Bean
-  @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-  public UserManagementService userManagementService(){
-    return new UserManagementServiceImpl();
+  public AuthenticationProvider authenticationProvider(){
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService());
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
   }
 
   @Bean
-  CommandLineRunner initUsers(UserManagementRepository umRepository) {
-    return args -> {
-      umRepository.save(new UserAccount("test", "password", "ROLE_USER"));
-      umRepository.save(new UserAccount("admin", "password", "ROLE_ADMIN"));
-    };
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder(){
+    return new BCryptPasswordEncoder();
   }
 }
