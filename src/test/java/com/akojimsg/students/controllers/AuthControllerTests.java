@@ -2,10 +2,10 @@ package com.akojimsg.students.controllers;
 
 import com.akojimsg.students.AbstractApplicationContextTest;
 import com.akojimsg.students.data.dtos.SigninRequest;
-import com.akojimsg.students.data.dtos.SigninResponse;
 import com.akojimsg.students.data.dtos.SignupRequest;
 import com.akojimsg.students.data.entities.Role;
 import com.akojimsg.students.data.entities.User;
+import com.akojimsg.students.data.repositories.TokenRepository;
 import com.akojimsg.students.services.UserService;
 import com.akojimsg.students.utils.auth.JwtUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -43,6 +43,8 @@ public class AuthControllerTests extends AbstractApplicationContextTest {
   JwtUtil jwtUtil;
   @Autowired
   UserService userService;
+  @Autowired
+  TokenRepository repository;
   static SigninRequest signinRequest;
   static SignupRequest signupRequest;
   static ObjectMapper mapper;
@@ -51,7 +53,7 @@ public class AuthControllerTests extends AbstractApplicationContextTest {
   String defaultUserSecret;
 
   @BeforeEach
-  void setUpTest(){
+  void setUpEnv(){
     mapper = new ObjectMapper();
     mapper.registerModule(new JavaTimeModule());
     var testUser = "newUser";
@@ -68,8 +70,15 @@ public class AuthControllerTests extends AbstractApplicationContextTest {
     signinRequest = SigninRequest
         .builder()
         .password(Optional.of(defaultUserSecret).orElse("test-secret"))
-        .username("melvin.pfannerstill@hotmail.com")
+        .username(testUser)
         .build();
+  }
+
+  @AfterEach
+  void tearDownEnv(){
+    User user = userService.findByUserName(signupRequest.getUsername());
+    repository.deleteAll();
+    userService.deleteUser(user.getId());
   }
 
   @Test
@@ -91,7 +100,13 @@ public class AuthControllerTests extends AbstractApplicationContextTest {
   @Test
   @DisplayName("test POST v1/auth/signin")
   void testSignIn_whenValidUserDetailsProvided_returnsAuthenticationToken() throws Exception {
-    User user = userService.findByUserName(signinRequest.getUsername());
+    RequestBuilder signup = MockMvcRequestBuilders.post("/v1/auth/signup")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .content(mapper.writeValueAsString(signupRequest));
+
+    String signupResponse = authSignup.exec(signup, mockMvc).getResponse().getContentAsString();
+    User user = mapper.readValue(signupResponse, User.class);
 
     String signinResponse = authSignin.exec(MockMvcRequestBuilders.post("/v1/auth/signin")
         .contentType(MediaType.APPLICATION_JSON)
