@@ -1,6 +1,6 @@
 package com.akojimsg.students.services.impl;
 
-import com.akojimsg.students.data.dto.StudentDTO;
+import com.akojimsg.students.data.dtos.StudentDto;
 import com.akojimsg.students.data.entities.Student;
 import com.akojimsg.students.data.repositories.StudentRepository;
 import com.akojimsg.students.services.StudentService;
@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    @Autowired
     private StudentRepository repository;
 
     public List<Student> getAllStudents(){
@@ -33,7 +32,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public List<Student> findStudentsByName(String name){
-        return repository.findByNameContains(name);
+        return repository.findByFullNameContains(name);
     }
 
     public Student addNewStudent(Student student) {
@@ -44,20 +43,25 @@ public class StudentServiceImpl implements StudentService {
         return repository.save(student);
     }
     @Transactional
-    public void updateStudent(Long id, StudentDTO student) {
+    public void updateStudent(Long id, StudentDto student) {
         Student existingStudent = findStudentById(id);
 
+        existingStudent.setFirstName(student.getFirstName());
+        existingStudent.setLastName(student.getLastName());
         existingStudent.setEmail(student.getEmail());
-        existingStudent.setName(student.getName());
         existingStudent.setDob(student.getDob());
     }
 
     @Transactional
-    public Student updateStudentDetails(Long id, String name, String email, LocalDate dob) {
+    public Student updateStudentDetails(Long id, String firstname, String lastname, String email, LocalDate dob) {
         Student student = findStudentById(id);
 
-        if( !Strings.isNullOrEmpty(name) && !name.equals(student.getName())){
-            student.setName(name);
+        if( !Strings.isNullOrEmpty(firstname) && !firstname.equals(student.getFirstName())){
+            student.setFirstName(firstname);
+        }
+
+        if( !Strings.isNullOrEmpty(firstname) && !firstname.equals(student.getLastName())){
+            student.setLastName(firstname);
         }
 
         if( !Strings.isNullOrEmpty(email) && !email.equals(student.getEmail())){

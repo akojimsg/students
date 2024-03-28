@@ -9,18 +9,18 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.akojimsg</groupId>
-	<artifactId>students</artifactId>
+	<artifactId>students-management-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>students</name>
-	<description>Spring Boot - Student Rest Api Demo</description>
+	<name>students-management-system</name>
+	<description>Spring Boot - Student management system</description>
 	<properties>
 		<java.version>21</java.version>
 		<version.hibernate>6.4.4.Final</version.hibernate>
 		<version.guava>32.1.3-jre</version.guava>
-		<version.faker>1.0.2</version.faker>
-		<version.jwt>0.9.1</version.jwt>
+		<version.jjwt>0.11.5</version.jjwt>
 		<version.junit.jupiter>5.10.2</version.junit.jupiter>
-		<jackson.version>2.15.4</jackson.version>
+		<version.jackson>2.15.4</version.jackson>
+		<version.lambok>1.18.30</version.lambok>
 		<sonar.organization>akojimsg</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
@@ -38,11 +38,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
-		</dependency>
 		-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -78,7 +78,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
+			<version>${version.lambok}</version>
+			<scope>provided</scope>
 		</dependency>
 		<!--
 		<dependency>
@@ -90,8 +91,18 @@
 		-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>${version.jwt}</version>
+			<artifactId>jjwt-api</artifactId>
+			<version>${version.jjwt}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${version.jjwt}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${version.jjwt}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -123,14 +134,14 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
+			<version>${version.jackson}</version>
 		</dependency>
 
 		<!-- support for "Java 8 Dates" -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>${jackson.version}</version>
+			<version>${version.jackson}</version>
 		</dependency>
 	</dependencies>
 
@@ -139,8 +150,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
-		</plugins>
+
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>21</source>-->
+<!--                    <target>21</target>-->
+<!--                    <compilerArgs>&#45;&#45;enable-preview</compilerArgs>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+        </plugins>
 	</build>
 
 </project>

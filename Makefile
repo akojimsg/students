@@ -4,8 +4,8 @@
 MODULE = github.com/akojimsg/java/students
 VERSION = v1.0.0
 TAG = students-0.0.1-SNAPSHOT
-EBS_ENVIRONMENT = students-api-e1
-EBS_DOCKER = students-docker-e1
+EBS_ENVIRONMENT = students-management-e1
+EBS_DOCKER = students-management-d1
 
 ifneq (,$(wildcard ./.env))
     include .env
@@ -59,7 +59,7 @@ stop-postgres-service:
 
 init-postgres:
 	# docker run -d --name pgrunner2 --network app-network -e POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" postgres
-	docker run --name pgrunner2 -e POSTGRES_PASSWORD="${POSTGRES_SECRET}" postgres
+	docker run --name pgrunner2 -e POSTGRES_PASSWORD="${POSTGRES_SECRET}" -e DB_SECRET="$${DB_SECRET}" -v ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh postgres
 
 config-postgres-aws:
 	export PGPASSWORD=${AWS_PG_SECRET} && ./scripts/init-db-aws.sh

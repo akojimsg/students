@@ -6,5 +6,4 @@ class StudentsApplicationTests extends AbstractApplicationContextTest {
 	@Test
 	void contextLoads() {
 	}
-
 }

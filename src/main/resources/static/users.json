@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "username": "melvin.pfannerstill@hotmail.com",
+    "email": "melvin.pfannerstill@hotmail.com",
+    "firstName": "Melvin",
+    "fullName": "Melvin Pfannerstill",
+    "lastName": "Pfannerstill",
+    "role": "STUDENT",
+    "dob": "1954-03-26",
+    "age": 70
+  },
+  {
+    "id": 2,
+    "username": "kiera.wuckert@hotmail.com",
+    "email": "kiera.wuckert@hotmail.com",
+    "firstName": "Kiera",
+    "fullName": "Kiera Wuckert",
+    "lastName": "Wuckert",
+    "role": "STUDENT",
+    "dob": "1941-09-14",
+    "age": 82
+  },
+  {
+    "id": 3,
+    "username": "madelynn.klein@hotmail.com",
+    "email": "madelynn.klein@hotmail.com",
+    "firstName": "Madelynn",
+    "fullName": "Madelynn Klein",
+    "lastName": "Klein",
+    "role": "STUDENT",
+    "dob": "2008-05-26",
+    "age": 15
+  },
+  {
+    "id": 4,
+    "username": "anibal.ratke@gmail.com",
+    "email": "anibal.ratke@gmail.com",
+    "firstName": "Anibal",
+    "fullName": "Anibal Ratke",
+    "lastName": "Ratke",
+    "role": "STUDENT",
+    "dob": "1948-02-12",
+    "age": 76
+  },
+  {
+    "id": 5,
+    "username": "myah.parker@gmail.com",
+    "email": "myah.parker@gmail.com",
+    "firstName": "Myah",
+    "fullName": "Myah Parker",
+    "lastName": "Parker",
+    "role": "STUDENT",
+    "dob": "1991-03-19",
+    "age": 33
+  },
+  {
+    "id": 6,
+    "username": "joe.gerlach@hotmail.com",
+    "email": "joe.gerlach@hotmail.com",
+    "firstName": "Joe",
+    "fullName": "Joe Gerlach",
+    "lastName": "Gerlach",
+    "role": "STUDENT",
+    "dob": "1997-04-27",
+    "age": 26
+  },
+  {
+    "id": 7,
+    "username": "earnest.kemmer@gmail.com",
+    "email": "earnest.kemmer@gmail.com",
+    "firstName": "Earnest",
+    "fullName": "Earnest Kemmer",
+    "lastName": "Kemmer",
+    "role": "STUDENT",
+    "dob": "2003-07-31",
+    "age": 20
+  },
+  {
+    "id": 8,
+    "username": "mireille.ferry@yahoo.com",
+    "email": "mireille.ferry@yahoo.com",
+    "firstName": "Mireille",
+    "fullName": "Mireille Ferry",
+    "lastName": "Ferry",
+    "role": "STUDENT",
+    "dob": "2007-02-24",
+    "age": 17
+  },
+  {
+    "id": 9,
+    "username": "mariano.kreiger@yahoo.com",
+    "email": "mariano.kreiger@yahoo.com",
+    "firstName": "Mariano",
+    "fullName": "Mariano Kreiger",
+    "lastName": "Kreiger",
+    "role": "STUDENT",
+    "dob": "1996-11-20",
+    "age": 27
+  },
+  {
+    "id": 10,
+    "username": "aidan.wuckert@gmail.com",
+    "email": "aidan.wuckert@gmail.com",
+    "firstName": "Aidan",
+    "fullName": "Aidan Wuckert",
+    "lastName": "Wuckert",
+    "role": "STUDENT",
+    "dob": "2012-07-23",
+    "age": 11
+  },
+  {
+    "id": 11,
+    "username": "elza.balistreri@hotmail.com",
+    "email": "elza.balistreri@hotmail.com",
+    "firstName": "Elza",
+    "fullName": "Elza Balistreri",
+    "lastName": "Balistreri",
+    "role": "STUDENT",
+    "dob": "2021-02-24",
+    "age": 3
+  },
+  {
+    "id": 12,
+    "username": "elliot.hammes@gmail.com",
+    "email": "elliot.hammes@gmail.com",
+    "firstName": "Elliot",
+    "fullName": "Elliot Hammes",
+    "lastName": "Hammes",
+    "role": "STUDENT",
+    "dob": "1997-07-25",
+    "age": 26
+  },
+  {
+    "id": 13,
+    "username": "estevan.denesik@yahoo.com",
+    "email": "estevan.denesik@yahoo.com",
+    "firstName": "Estevan",
+    "fullName": "Estevan Denesik",
+    "lastName": "Denesik",
+    "role": "STUDENT",
+    "dob": "1999-04-10",
+    "age": 24
+  },
+  {
+    "id": 14,
+    "username": "grant.runolfsson@gmail.com",
+    "email": "grant.runolfsson@gmail.com",
+    "firstName": "Grant",
+    "fullName": "Grant Runolfsson",
+    "lastName": "Runolfsson",
+    "role": "STUDENT",
+    "dob": "2018-05-23",
+    "age": 5
+  },
+  {
+    "id": 15,
+    "username": "chester.dubuque@yahoo.com",
+    "email": "chester.dubuque@yahoo.com",
+    "firstName": "Chester",
+    "fullName": "Chester DuBuque",
+    "lastName": "DuBuque",
+    "role": "STUDENT",
+    "dob": "2010-07-31",
+    "age": 13
+  },
+  {
+    "id": 16,
+    "username": "adele.fisher@hotmail.com",
+    "email": "adele.fisher@hotmail.com",
+    "firstName": "Adele",
+    "fullName": "Adele Fisher",
+    "lastName": "Fisher",
+    "role": "STUDENT",
+    "dob": "1926-07-15",
+    "age": 97
+  },
+  {
+    "id": 17,
+    "username": "ken.gulgowski@hotmail.com",
+    "email": "ken.gulgowski@hotmail.com",
+    "firstName": "Ken",
+    "fullName": "Ken Gulgowski",
+    "lastName": "Gulgowski",
+    "role": "STUDENT",
+    "dob": "1983-09-15",
+    "age": 40
+  },
+  {
+    "id": 18,
+    "username": "luigi.schamberger@yahoo.com",
+    "email": "luigi.schamberger@yahoo.com",
+    "firstName": "Luigi",
+    "fullName": "Luigi Schamberger",
+    "lastName": "Schamberger",
+    "role": "STUDENT",
+    "dob": "2024-06-24",
+    "age": 0
+  },
+  {
+    "id": 19,
+    "username": "erwin.armstrong@hotmail.com",
+    "email": "erwin.armstrong@hotmail.com",
+    "firstName": "Erwin",
+    "fullName": "Erwin Armstrong",
+    "lastName": "Armstrong",
+    "role": "STUDENT",
+    "dob": "1969-09-22",
+    "age": 54
+  },
+  {
+    "id": 20,
+    "username": "maureen.treutel@gmail.com",
+    "email": "maureen.treutel@gmail.com",
+    "firstName": "Maureen",
+    "fullName": "Maureen Treutel",
+    "lastName": "Treutel",
+    "role": "STUDENT",
+    "dob": "1993-12-04",
+    "age": 30
+  }
+]
